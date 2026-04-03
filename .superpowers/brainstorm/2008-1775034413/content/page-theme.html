@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safex – Page Theme</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0d0d0d; color: #fff; padding: 24px; }
+  h1 { text-align: center; font-size: 1.3rem; color: #aaa; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #555; font-size: 0.85rem; margin-bottom: 32px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 960px; margin: 0 auto; }
+  .card { border-radius: 14px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: all 0.2s; }
+  .card:hover { border-color: #4CAF50; transform: translateY(-3px); }
+  .card.selected { border-color: #FF9800; box-shadow: 0 0 0 4px rgba(255,152,0,0.2); }
+  .label { font-size: 0.85rem; font-weight: 700; color: #ccc; padding: 10px 14px 4px; }
+  .desc { font-size: 0.72rem; color: #666; padding: 0 14px 12px; }
+  .sel { display: none; color: #FF9800; font-size: 0.78rem; font-weight: 700; padding: 0 14px 10px; }
+  .card.selected .sel { display: block; }
+
+  /* THEME A — Light / Earthy Beige */
+  .theme-a { background: #f5f0e8; }
+  .theme-a .sec1 { background: #f5f0e8; padding: 18px 20px; }
+  .theme-a .sec1 .section-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #006400; font-weight: 700; margin-bottom: 6px; }
+  .theme-a .sec1 h3 { font-size: 1.1rem; font-weight: 900; color: #1a2e1a; margin-bottom: 8px; }
+  .theme-a .sec1 p { font-size: 0.7rem; color: #555; line-height: 1.6; }
+  .theme-a .sec2 { background: #fff; padding: 16px 20px; display: flex; gap: 10px; }
+  .theme-a .mini-card { flex: 1; background: #f5f0e8; border-radius: 8px; padding: 10px; text-align: center; }
+  .theme-a .mini-card .icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .theme-a .mini-card .title { font-size: 0.65rem; font-weight: 700; color: #006400; }
+  .theme-a .sec3 { background: #006400; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .theme-a .sec3 span { color: #fff; font-size: 0.72rem; font-weight: 600; }
+  .theme-a .sec3 button { background: #FF9800; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
+
+  /* THEME B — Deep Dark / Premium */
+  .theme-b { background: #0d1a0d; }
+  .theme-b .sec1 { background: #0d1a0d; padding: 18px 20px; }
+  .theme-b .sec1 .section-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #4CAF50; font-weight: 700; margin-bottom: 6px; }
+  .theme-b .sec1 h3 { font-size: 1.1rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
+  .theme-b .sec1 p { font-size: 0.7rem; color: #888; line-height: 1.6; }
+  .theme-b .sec2 { background: #111d11; padding: 16px 20px; display: flex; gap: 10px; }
+  .theme-b .mini-card { flex: 1; background: #1a2e1a; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #2a3e2a; }
+  .theme-b .mini-card .icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .theme-b .mini-card .title { font-size: 0.65rem; font-weight: 700; color: #4CAF50; }
+  .theme-b .sec3 { background: #1a2e1a; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #2a4a2a; }
+  .theme-b .sec3 span { color: #aaa; font-size: 0.72rem; font-weight: 600; }
+  .theme-b .sec3 button { background: #FF9800; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
+
+  .hint { text-align: center; color: #444; font-size: 0.78rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<h1>Safex — Overall Page Color Theme</h1>
+<p class="subtitle">How should the content sections feel between the hero and footer?</p>
+
+<div class="row">
+
+  <!-- THEME A: Light -->
+  <div class="card" id="ta" onclick="pick('ta','a')">
+    <div class="theme-a">
+      <div class="sec1">
+        <div class="section-label">Why Choose Safex</div>
+        <h3>Trusted by 1,000+ Farmers Across India</h3>
+        <p>Our products combine cutting-edge science with sustainable farming practices — protecting your crops while preserving soil health for future generations.</p>
+      </div>
+      <div class="sec2">
+        <div class="mini-card"><div class="icon">🏆</div><div class="title">Quality Certified</div></div>
+        <div class="mini-card"><div class="icon">🚚</div><div class="title">Pan India</div></div>
+        <div class="mini-card"><div class="icon">🌿</div><div class="title">Sustainable</div></div>
+      </div>
+      <div class="sec3"><span>📞 1800 102 3959 — Free Helpline</span><button>Get Quote</button></div>
+    </div>
+    <div class="label">Theme A — Light / Earthy Beige</div>
+    <div class="desc">Clean, trustworthy, natural. Bright and easy to read. Familiar to most users.</div>
+    <div class="sel">✔ Selected</div>
+  </div>
+
+  <!-- THEME B: Dark -->
+  <div class="card" id="tb" onclick="pick('tb','b')">
+    <div class="theme-b">
+      <div class="sec1">
+        <div class="section-label">Why Choose Safex</div>
+        <h3>Trusted by 1,000+ Farmers Across India</h3>
+        <p>Our products combine cutting-edge science with sustainable farming practices — protecting your crops while preserving soil health for future generations.</p>
+      </div>
+      <div class="sec2">
+        <div class="mini-card"><div class="icon">🏆</div><div class="title">Quality Certified</div></div>
+        <div class="mini-card"><div class="icon">🚚</div><div class="title">Pan India</div></div>
+        <div class="mini-card"><div class="icon">🌿</div><div class="title">Sustainable</div></div>
+      </div>
+      <div class="sec3"><span>📞 1800 102 3959 — Free Helpline</span><button>Get Quote</button></div>
+    </div>
+    <div class="label">Theme B — Deep Dark / Premium ⭐</div>
+    <div class="desc">Bold, premium, modern. Works beautifully with the dark overlay product cards (Option C) you chose.</div>
+    <div class="sel">✔ Selected</div>
+  </div>
+
+</div>
+
+<p class="hint">Click to select. Tell me your pick in the terminal.</p>
+
+<script>
+function pick(id, choice) {
+  ['ta','tb'].forEach(i => document.getElementById(i).classList.remove('selected'));
+  document.getElementById(id).classList.add('selected');
+  if (window.__companion) window.__companion.select(choice, 'Theme ' + choice.toUpperCase());
+}
+</script>
+</body>
+</html>

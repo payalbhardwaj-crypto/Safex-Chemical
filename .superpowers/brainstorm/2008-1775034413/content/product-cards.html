@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safex – Product Card Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #111; color: #fff; padding: 24px; }
+  h1 { text-align: center; font-size: 1.3rem; color: #aaa; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #555; font-size: 0.85rem; margin-bottom: 32px; }
+
+  /* Wrapper for each option */
+  .option-block { max-width: 900px; margin: 0 auto 40px; }
+  .option-block h2 { font-size: 1rem; color: #ccc; margin-bottom: 4px; }
+  .option-block .desc { font-size: 0.78rem; color: #666; margin-bottom: 14px; }
+  .option-block .preview { border: 3px solid transparent; border-radius: 14px; padding: 20px; background: #1a1a1a; cursor: pointer; transition: all 0.2s; }
+  .option-block .preview:hover { border-color: #4CAF50; }
+  .option-block .preview.selected { border-color: #FF9800; box-shadow: 0 0 0 3px rgba(255,152,0,0.2); }
+  .selected-badge { display: none; color: #FF9800; font-size: 0.8rem; font-weight: 700; margin-top: 8px; }
+  .option-block .preview.selected + .selected-badge { display: block; }
+
+  /* ---- CARD STYLE A: Vertical, image top ---- */
+  .cards-a { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .card-a { background: #fff; border-radius: 10px; overflow: hidden; color: #111; }
+  .card-a .img { height: 110px; background: url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&q=70') center/cover; position: relative; }
+  .card-a .img .badge { position: absolute; top: 8px; left: 8px; background: #FF9800; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+  .card-a .body { padding: 10px; }
+  .card-a .name { font-size: 0.85rem; font-weight: 800; color: #006400; }
+  .card-a .ingredient { font-size: 0.62rem; color: #888; margin: 2px 0 5px; }
+  .card-a .benefit { font-size: 0.68rem; color: #444; margin-bottom: 10px; line-height: 1.4; }
+  .card-a .actions { display: flex; gap: 6px; }
+  .card-a .btn-add { flex: 1; background: #006400; color: #fff; border: none; border-radius: 5px; padding: 5px 0; font-size: 0.65rem; font-weight: 700; cursor: pointer; }
+  .card-a .btn-more { flex: 1; background: transparent; color: #006400; border: 1.5px solid #006400; border-radius: 5px; padding: 5px 0; font-size: 0.65rem; font-weight: 700; cursor: pointer; }
+
+  /* ---- CARD STYLE B: Horizontal, image left ---- */
+  .cards-b { display: flex; flex-direction: column; gap: 10px; }
+  .card-b { background: #fff; border-radius: 10px; overflow: hidden; color: #111; display: flex; height: 80px; }
+  .card-b .img { width: 80px; min-width: 80px; background: url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=70') center/cover; }
+  .card-b .body { padding: 10px 14px; flex: 1; display: flex; align-items: center; justify-content: space-between; }
+  .card-b .info .name { font-size: 0.85rem; font-weight: 800; color: #006400; }
+  .card-b .info .ingredient { font-size: 0.6rem; color: #888; }
+  .card-b .info .benefit { font-size: 0.65rem; color: #555; margin-top: 3px; }
+  .card-b .actions { display: flex; gap: 6px; align-items: center; }
+  .card-b .btn-add { background: #FF9800; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; font-size: 0.62rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+  .card-b .btn-more { background: transparent; color: #006400; border: 1.5px solid #006400; border-radius: 5px; padding: 5px 10px; font-size: 0.62rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+
+  /* ---- CARD STYLE C: Magazine tile, big image bg ---- */
+  .cards-c { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .card-c { border-radius: 12px; overflow: hidden; position: relative; height: 180px; cursor: pointer; }
+  .card-c .bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&q=70') center/cover; }
+  .card-c .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,40,0,0.92) 55%, transparent 100%); }
+  .card-c .content { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; }
+  .card-c .badge { display: inline-block; background: #FF9800; color: #fff; font-size: 0.55rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; margin-bottom: 4px; }
+  .card-c .name { font-size: 0.85rem; font-weight: 800; color: #fff; }
+  .card-c .ingredient { font-size: 0.58rem; color: rgba(255,255,255,0.7); margin: 2px 0 8px; }
+  .card-c .actions { display: flex; gap: 6px; }
+  .card-c .btn-add { flex: 1; background: #FF9800; color: #fff; border: none; border-radius: 5px; padding: 5px 0; font-size: 0.62rem; font-weight: 700; cursor: pointer; }
+  .card-c .btn-more { flex: 1; background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; padding: 5px 0; font-size: 0.62rem; font-weight: 700; cursor: pointer; }
+
+  .hint { text-align: center; color: #444; font-size: 0.78rem; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Safex — Product Card Style</h1>
+<p class="subtitle">Three card layouts for the Products section. Click a card to select.</p>
+
+<!-- OPTION A -->
+<div class="option-block">
+  <h2>Option A — Vertical Grid (Image Top) <span style="color:#4CAF50;font-size:0.75rem">⭐ Recommended</span></h2>
+  <p class="desc">Classic e-commerce style. 4 columns desktop, 2 on tablet, 1 on mobile. Easy to scan.</p>
+  <div class="preview" id="pa" onclick="pick('pa','a')">
+    <div class="cards-a">
+      <div class="card-a"><div class="img"><span class="badge">Insecticide</span></div><div class="body"><div class="name">Girdle</div><div class="ingredient">Chlorantraniliprole 18.5% SC</div><div class="benefit">Powerful stem borer control for rice & sugarcane crops</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-a"><div class="img" style="background-image:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=70')"><span class="badge">Fungicide</span></div><div class="body"><div class="name">Hallabol</div><div class="ingredient">Azoxystrobin 11% + Tebuconazole 18.3% SC</div><div class="benefit">Broad spectrum fungal disease protection</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-a"><div class="img" style="background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&q=70')"><span class="badge">Herbicide</span></div><div class="body"><div class="name">Goodbye</div><div class="ingredient">Ametryne 80% WDG</div><div class="benefit">Effective weed control for sugarcane fields</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-a"><div class="img" style="background-image:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=200&q=70')"><span class="badge">Organic</span></div><div class="body"><div class="name">Bahaar</div><div class="ingredient">Organic Manure</div><div class="benefit">Enriches soil health and boosts crop yield naturally</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+    </div>
+  </div>
+  <div class="selected-badge">✔ Option A Selected</div>
+</div>
+
+<!-- OPTION B -->
+<div class="option-block">
+  <h2>Option B — Horizontal List</h2>
+  <p class="desc">Compact list view. Works well on mobile. Shows more products per scroll.</p>
+  <div class="preview" id="pb" onclick="pick('pb','b')">
+    <div class="cards-b">
+      <div class="card-b"><div class="img"></div><div class="body"><div class="info"><div class="name">Girdle</div><div class="ingredient">Chlorantraniliprole 18.5% SC</div><div class="benefit">Stem borer control • Insecticide</div></div><div class="actions"><button class="btn-more">Details</button><button class="btn-add">+ Inquiry</button></div></div></div>
+      <div class="card-b"><div class="img" style="background-image:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=70')"></div><div class="body"><div class="info"><div class="name">Hallabol</div><div class="ingredient">Azoxystrobin 11% + Tebuconazole 18.3%</div><div class="benefit">Broad fungal control • Fungicide</div></div><div class="actions"><button class="btn-more">Details</button><button class="btn-add">+ Inquiry</button></div></div></div>
+      <div class="card-b"><div class="img" style="background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&q=70')"></div><div class="body"><div class="info"><div class="name">Goodbye</div><div class="ingredient">Ametryne 80% WDG</div><div class="benefit">Weed control • Herbicide</div></div><div class="actions"><button class="btn-more">Details</button><button class="btn-add">+ Inquiry</button></div></div></div>
+    </div>
+  </div>
+  <div class="selected-badge">✔ Option B Selected</div>
+</div>
+
+<!-- OPTION C -->
+<div class="option-block">
+  <h2>Option C — Magazine Tiles (Dark Overlay)</h2>
+  <p class="desc">Bold, visual-first. Image fills the card with overlay text. High-impact look.</p>
+  <div class="preview" id="pc" onclick="pick('pc','c')">
+    <div class="cards-c">
+      <div class="card-c"><div class="bg"></div><div class="overlay"></div><div class="content"><span class="badge">Insecticide</span><div class="name">Girdle</div><div class="ingredient">Chlorantraniliprole 18.5% SC</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-c"><div class="bg" style="background-image:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=70')"></div><div class="overlay"></div><div class="content"><span class="badge">Fungicide</span><div class="name">Hallabol</div><div class="ingredient">Azoxystrobin + Tebuconazole SC</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-c"><div class="bg" style="background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&q=70')"></div><div class="overlay"></div><div class="content"><span class="badge">Herbicide</span><div class="name">Goodbye</div><div class="ingredient">Ametryne 80% WDG</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+      <div class="card-c"><div class="bg" style="background-image:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=200&q=70')"></div><div class="overlay"></div><div class="content"><span class="badge">Organic</span><div class="name">Bahaar</div><div class="ingredient">Organic Manure</div><div class="actions"><button class="btn-add">+ Inquiry</button><button class="btn-more">Details</button></div></div></div>
+    </div>
+  </div>
+  <div class="selected-badge">✔ Option C Selected</div>
+</div>
+
+<p class="hint">Click a card style to select it. Tell me your pick in the terminal.</p>
+
+<script>
+function pick(id, choice) {
+  ['pa','pb','pc'].forEach(i => document.getElementById(i).classList.remove('selected'));
+  document.getElementById(id).classList.add('selected');
+  if (window.__companion) window.__companion.select(choice, 'Product card option ' + choice.toUpperCase());
+}
+</script>
+</body>
+</html>
