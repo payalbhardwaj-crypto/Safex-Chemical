@@ -13,14 +13,16 @@ export default function CropSolutions() {
     : []
 
   return (
-    <section id="crops" className="py-20 px-4 bg-beige dark:bg-dark-card">
-      <div className="max-w-7xl mx-auto">
+    <section id="crops" className="py-20 px-4 section-light border-t border-corp-border">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Section header */}
         <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Crop Solutions</span>
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          <span className="section-label block mb-2">Crop Solutions</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-corp-text">
             Find the Right Product for Your Crop
           </h2>
-          <p className="mt-4 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm md:text-base">
+          <p className="mt-3 text-corp-text-2 max-w-xl mx-auto text-sm md:text-base">
             Select your crop below to see Safex products recommended by our agronomists.
           </p>
         </div>
@@ -40,9 +42,14 @@ export default function CropSolutions() {
         {/* Recommended products */}
         {activeCrop && (
           <div className="mt-12">
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-              Recommended for <span className="text-primary-dark dark:text-primary">{activeCrop.icon} {activeCrop.name}</span>
-            </h3>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-px flex-1 bg-corp-border" />
+              <h3 className="text-base font-semibold text-corp-text whitespace-nowrap">
+                Recommended for{' '}
+                <span className="text-corp-green">{activeCrop.icon} {activeCrop.name}</span>
+              </h3>
+              <div className="h-px flex-1 bg-corp-border" />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
               {recommendedProducts.map(product => (
                 <ProductCard key={product.id} product={product} />

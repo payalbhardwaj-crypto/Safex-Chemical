@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, Trash2, CheckCircle } from 'lucide-react'
+import { X, Trash2, CheckCircle, ShoppingCart } from 'lucide-react'
 import { useInquiry } from '../context/InquiryContext'
 
 export default function InquiryModal({ open, onClose }) {
@@ -33,27 +33,39 @@ export default function InquiryModal({ open, onClose }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+      />
 
-      {/* Modal panel */}
-      <div className="relative z-10 w-full sm:max-w-lg bg-white dark:bg-dark-bg rounded-t-3xl sm:rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto">
+      {/* Modal */}
+      <div className="relative z-10 w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-xl shadow-modal max-h-[90vh] overflow-y-auto border border-corp-border">
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-bg rounded-t-3xl">
-          <div>
-            <h2 className="text-lg font-black text-gray-900 dark:text-white">Your Inquiry Cart</h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{cart.length} product{cart.length !== 1 ? 's' : ''} selected</p>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-corp-border sticky top-0 bg-white rounded-t-2xl sm:rounded-t-xl">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-corp-green-bg rounded-md flex items-center justify-center">
+              <ShoppingCart size={15} className="text-corp-green" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-corp-text">Your Inquiry Cart</h2>
+              <p className="text-xs text-corp-text-2">{cart.length} product{cart.length !== 1 ? 's' : ''} selected</p>
+            </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-dark-card rounded-full transition-colors">
-            <X size={20} className="text-gray-500 dark:text-gray-400" />
+          <button
+            onClick={onClose}
+            className="p-1.5 hover:bg-corp-surface rounded-md transition-colors text-corp-text-2 hover:text-corp-text"
+          >
+            <X size={18} />
           </button>
         </div>
 
         <div className="px-6 py-5">
           {submitted ? (
-            <div className="flex flex-col items-center py-8 text-center">
-              <CheckCircle size={56} className="text-primary mb-4" />
-              <h3 className="text-xl font-black text-gray-900 dark:text-white">Request Sent!</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
+            <div className="flex flex-col items-center py-10 text-center">
+              <CheckCircle size={48} className="text-corp-green mb-4" />
+              <h3 className="text-xl font-bold text-corp-text">Request Sent!</h3>
+              <p className="text-corp-text-2 text-sm mt-2">
                 Our team will contact you within 24 hours.<br />Thank you for choosing Safex!
               </p>
             </div>
@@ -61,33 +73,37 @@ export default function InquiryModal({ open, onClose }) {
             <>
               {/* Cart items */}
               {cart.length === 0 ? (
-                <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-6">
+                <p className="text-center text-corp-text-2 text-sm py-8 bg-corp-surface rounded-md">
                   No products added yet. Browse our products and click "Add to Inquiry".
                 </p>
               ) : (
                 <div className="flex flex-col gap-2 mb-6">
                   {cart.map(product => (
-                    <div key={product.id}
-                      className="flex items-center justify-between bg-beige dark:bg-dark-card rounded-xl px-4 py-3">
+                    <div
+                      key={product.id}
+                      className="flex items-center justify-between bg-corp-surface border border-corp-border rounded-md px-4 py-3"
+                    >
                       <div>
-                        <div className="font-bold text-sm text-gray-900 dark:text-white">{product.name}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{product.category}</div>
+                        <div className="font-semibold text-sm text-corp-text">{product.name}</div>
+                        <div className="text-xs text-corp-text-2">{product.category}</div>
                       </div>
-                      <button onClick={() => removeProduct(product.id)}
-                        className="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-gray-400 hover:text-red-500">
-                        <Trash2 size={15} />
+                      <button
+                        onClick={() => removeProduct(product.id)}
+                        className="p-1.5 hover:bg-red-50 rounded-md transition-colors text-corp-text-2 hover:text-red-600"
+                      >
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Quote form */}
+              {/* Form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h3 className="font-bold text-base text-gray-900 dark:text-white">Request a Quote</h3>
+                <h3 className="font-bold text-sm text-corp-text border-t border-corp-border pt-4">Request a Quote</h3>
 
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 block">
+                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
                     Your Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -95,15 +111,13 @@ export default function InquiryModal({ open, onClose }) {
                     value={form.name}
                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     placeholder="e.g. Ramesh Kumar"
-                    className={`w-full border rounded-xl px-4 py-3 text-sm bg-white dark:bg-dark-card text-gray-900 dark:text-white outline-none transition-colors focus:border-primary-dark dark:focus:border-primary ${
-                      errors.name ? 'border-red-400' : 'border-gray-200 dark:border-dark-border'
-                    }`}
+                    className={`corp-input ${errors.name ? 'error' : ''}`}
                   />
                   {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 block">
+                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
                     Mobile Number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -112,30 +126,30 @@ export default function InquiryModal({ open, onClose }) {
                     onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                     placeholder="10-digit mobile number"
                     maxLength={10}
-                    className={`w-full border rounded-xl px-4 py-3 text-sm bg-white dark:bg-dark-card text-gray-900 dark:text-white outline-none transition-colors focus:border-primary-dark dark:focus:border-primary ${
-                      errors.phone ? 'border-red-400' : 'border-gray-200 dark:border-dark-border'
-                    }`}
+                    className={`corp-input ${errors.phone ? 'error' : ''}`}
                   />
                   {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1 block">Message (Optional)</label>
+                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
+                    Message (Optional)
+                  </label>
                   <textarea
                     value={form.message}
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                     placeholder="Tell us about your crop, farm size, or any specific needs..."
                     rows={3}
-                    className="w-full border border-gray-200 dark:border-dark-border rounded-xl px-4 py-3 text-sm bg-white dark:bg-dark-card text-gray-900 dark:text-white outline-none resize-none focus:border-primary-dark dark:focus:border-primary transition-colors"
+                    className="corp-input resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={cart.length === 0}
-                  className="bg-accent hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl text-base transition-all duration-200 hover:shadow-lg"
+                  className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-md text-sm"
                 >
-                  Request Quote
+                  Submit Request
                 </button>
               </form>
             </>

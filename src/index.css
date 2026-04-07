@@ -2,15 +2,111 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Base ───────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
 body {
   @apply font-sans antialiased;
+  background-color: #FFFFFF;
+  color: #1A1A1A;
+  line-height: 1.6;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { @apply bg-gray-100 dark:bg-dark-bg; }
-::-webkit-scrollbar-thumb { @apply bg-primary-dark rounded-full; }
+/* ── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: #F5F5F5; }
+::-webkit-scrollbar-thumb  { background: #66BB6A; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #2E7D32; }
+
+/* ── Utilities ──────────────────────────────────── */
+@layer utilities {
+
+  /* Section backgrounds */
+  .section-light  { background-color: #FFFFFF; }
+  .section-gray   { background-color: #F5F5F5; }
+  .section-green  { background-color: #F1F8F1; }
+
+  /* Section label (eyebrow) */
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-widest;
+    color: #2E7D32;
+  }
+
+  /* ── Cards ──────────────────────────────────── */
+  .corp-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .corp-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  /* ── Buttons ────────────────────────────────── */
+  .btn-primary {
+    background-color: #2E7D32;
+    color: #FFFFFF;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  button.btn-primary:hover,
+  a.btn-primary:hover {
+    background-color: #1B5E20;
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.25);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    border: 1.5px solid #2E7D32;
+    color: #2E7D32;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  button.btn-secondary:hover,
+  a.btn-secondary:hover {
+    background-color: #E8F5E9;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border: 1.5px solid #E0E0E0;
+    color: #1A1A1A;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  button.btn-outline:hover,
+  a.btn-outline:hover {
+    border-color: #2E7D32;
+    color: #2E7D32;
+  }
+
+  /* ── Category tags / badges ─────────────────── */
+  .tag-insecticide { background-color: #FEE2E2; color: #B91C1C; }
+  .tag-fungicide   { background-color: #EDE9FE; color: #6D28D9; }
+  .tag-herbicide   { background-color: #FEF9C3; color: #92400E; }
+  .tag-organic     { background-color: #D1FAE5; color: #065F46; }
+
+  /* ── Form inputs ────────────────────────────── */
+  .corp-input {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    color: #1A1A1A;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .corp-input:focus {
+    border-color: #2E7D32;
+  }
+  .corp-input::placeholder {
+    color: #AAAAAA;
+  }
+  .corp-input.error {
+    border-color: #DC2626;
+  }
+}

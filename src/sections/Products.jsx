@@ -10,14 +10,16 @@ export default function Products() {
     : products.filter(p => p.category === activeCategory)
 
   return (
-    <section id="products" className="py-20 px-4 bg-white dark:bg-dark-bg">
-      <div className="max-w-7xl mx-auto">
+    <section id="products" className="py-20 px-4 section-gray">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Section header */}
         <div className="text-center mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Our Products</span>
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
+          <span className="section-label block mb-2">Our Products</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-corp-text">
             Trusted Crop Protection Solutions
           </h2>
-          <p className="mt-4 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm md:text-base">
+          <p className="mt-3 text-corp-text-2 max-w-xl mx-auto text-sm md:text-base">
             Scientifically formulated products for every crop and every season — from seed to harvest.
           </p>
         </div>
@@ -28,10 +30,10 @@ export default function Products() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 ${
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 border ${
                 activeCategory === cat
-                  ? 'bg-primary-dark text-white shadow-md scale-105'
-                  : 'bg-beige dark:bg-dark-card text-gray-600 dark:text-gray-300 hover:bg-primary/10 hover:text-primary-dark dark:hover:text-primary'
+                  ? 'bg-corp-green text-white border-corp-green'
+                  : 'bg-white text-corp-text-2 border-corp-border hover:border-corp-green hover:text-corp-green'
               }`}
             >
               {cat}
