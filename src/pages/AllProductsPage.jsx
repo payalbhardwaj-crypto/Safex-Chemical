@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ShoppingCart, Check, Search, X } from 'lucide-react'
 import { products } from '../data/products'
 import { crops } from '../data/crops'
