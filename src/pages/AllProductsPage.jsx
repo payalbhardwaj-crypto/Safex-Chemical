@@ -1,82 +1,25 @@
 import { useState } from 'react'
 import { ShoppingCart, Check, Search, X } from 'lucide-react'
-import { products } from '../data/products'
-import { crops } from '../data/crops'
+import { CATALOG_CATEGORIES, CATALOG_CROPS, CATALOG_INSECTS, CATALOG_DISEASES } from '../data/catalogData'
 import { useInquiry } from '../context/InquiryContext'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import InquiryModal from '../sections/InquiryModal'
 
-// ── Category metadata ─────────────────────────────────────
-const CATEGORY_SECTIONS = [
-  {
-    key: 'Herbicide',
-    label: 'Herbicides',
-    description:
-      'Selective and non-selective herbicides for complete weed management. Safe on crops, tough on weeds — trusted across rabi and kharif seasons.',
-    decoration: '🌿',
-  },
-  {
-    key: 'Insecticide',
-    label: 'Insecticides',
-    description:
-      'Advanced formulations for broad-spectrum and targeted insect control. Effective against sucking, chewing, and soil-borne pests at every growth stage.',
-    decoration: '🐛',
-  },
-  {
-    key: 'Fungicide',
-    label: 'Fungicides',
-    description:
-      'Systemic and contact fungicides that protect crops from fungal diseases. Proven performance on rice, wheat, cotton, vegetables, and more.',
-    decoration: '🍄',
-  },
-  {
-    key: 'Organic',
-    label: 'PGRs & Bio Fertilizers',
-    description:
-      'Sustainable organic solutions to enrich soil, boost microbial activity, and enhance crop yield naturally — without harming the environment.',
-    decoration: '🌱',
-  },
-]
-
-// ── Disease data ──────────────────────────────────────────
-const DISEASES = [
-  { name: 'Rice Blast',        icon: '🌾', image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=200&q=80' },
-  { name: 'Late Blight',       icon: '🍂', image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=80' },
-  { name: 'Powdery Mildew',    icon: '🌫️', image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&q=80' },
-  { name: 'Downy Mildew',      icon: '💧', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&q=80' },
-  { name: 'Leaf Rust',         icon: '🍁', image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=200&q=80' },
-  { name: 'Fusarium Wilt',     icon: '🌵', image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&q=80' },
-  { name: 'Anthracnose',       icon: '🔴', image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=200&q=80' },
-  { name: 'Bacterial Blight',  icon: '🟡', image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200&q=80' },
-  { name: 'Stem Rot',          icon: '🌿', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&q=80' },
-  { name: 'Sheath Blight',     icon: '🌾', image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=200&q=80' },
-]
-
 const TABS = ['Products', 'Crops', 'Diseases']
 
-// ── Product mini-card ─────────────────────────────────────
+// ── Product mini-card (name + composition only, no image) ─────────────────────
 function ProductMiniCard({ product }) {
   const { cart, addProduct } = useInquiry()
   const inCart = cart.some(p => p.id === product.id)
 
   return (
     <div className="bg-white border border-corp-border rounded-lg overflow-hidden group hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
-      {/* Image */}
-      <div className="aspect-square bg-corp-surface overflow-hidden flex items-center justify-center">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-
-      {/* Content */}
-      <div className="p-2.5 flex flex-col gap-2 flex-1">
+      <div className="p-3 flex flex-col gap-2 flex-1">
         <div className="flex-1">
           <h4 className="text-xs font-bold text-corp-text leading-snug">{product.name}</h4>
-          <p className="text-[10px] text-corp-text-2 mt-0.5 leading-snug line-clamp-2">{product.ingredient}</p>
+          <p className="text-[10px] text-corp-text-2 mt-0.5 leading-snug">{product.composition}</p>
         </div>
 
         <button
@@ -98,32 +41,30 @@ function ProductMiniCard({ product }) {
   )
 }
 
-// ── Circular item (crops / diseases) ─────────────────────
-function CircleItem({ label, image, icon }) {
+// ── Crop circle item ──────────────────────────────────────
+function CropItem({ crop }) {
   return (
     <div className="flex flex-col items-center gap-2 cursor-pointer group">
-      <div className="w-20 h-20 rounded-full border-2 border-corp-border group-hover:border-corp-green overflow-hidden bg-corp-green-bg flex items-center justify-center transition-all duration-200 group-hover:shadow-card">
-        {image
-          ? <img src={image} alt={label} className="w-full h-full object-cover" />
-          : <span className="text-3xl">{icon}</span>
-        }
+      <div className="w-20 h-20 rounded-full border-2 border-corp-border group-hover:border-corp-green bg-corp-green-bg flex items-center justify-center transition-all duration-200 group-hover:shadow-card">
+        <span className="text-3xl">{crop.icon}</span>
       </div>
-      <span className="text-xs font-medium text-corp-text text-center leading-tight max-w-[72px]">{label}</span>
+      <span className="text-xs font-medium text-corp-text text-center leading-tight max-w-[72px]">{crop.name}</span>
     </div>
   )
 }
 
 // ── Main page ─────────────────────────────────────────────
 export default function AllProductsPage() {
-  const [cartOpen,   setCartOpen]   = useState(false)
-  const [activeTab,  setActiveTab]  = useState('Products')
-  const [search,     setSearch]     = useState('')
+  const [cartOpen,  setCartOpen]  = useState(false)
+  const [activeTab, setActiveTab] = useState('Products')
+  const [search,    setSearch]    = useState('')
 
-  // For search — filter across all products
+  // Flatten all products for search
+  const allProducts = CATALOG_CATEGORIES.flatMap(cat => cat.products)
   const searchResults = search.trim()
-    ? products.filter(p =>
+    ? allProducts.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.ingredient.toLowerCase().includes(search.toLowerCase()) ||
+        p.composition.toLowerCase().includes(search.toLowerCase()) ||
         p.category.toLowerCase().includes(search.toLowerCase())
       )
     : null
@@ -202,29 +143,28 @@ export default function AllProductsPage() {
             ) : (
               /* Category-by-category catalog */
               <div className="divide-y divide-corp-border">
-                {CATEGORY_SECTIONS.map(section => {
-                  const catProducts = products.filter(p => p.category === section.key)
-                  return (
-                    <div key={section.key} className="py-10 flex flex-col md:flex-row gap-8">
+                {CATALOG_CATEGORIES.map(category => (
+                  <div key={category.id} className="py-10 flex flex-col md:flex-row gap-8">
 
-                      {/* Left: category info */}
-                      <div className="md:w-52 flex-shrink-0 flex flex-col gap-3">
-                        <div className="text-4xl">{section.decoration}</div>
-                        <h2 className="text-lg font-bold text-corp-text">{section.label}</h2>
-                        <p className="text-xs text-corp-text-2 leading-relaxed">{section.description}</p>
-                        <p className="text-xs font-medium text-corp-green">{catProducts.length} products</p>
+                    {/* Left: category info */}
+                    <div className="md:w-52 flex-shrink-0 flex flex-col gap-3">
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold w-fit ${category.bgColor} ${category.color} border ${category.borderColor}`}>
+                        {category.label}
                       </div>
-
-                      {/* Right: product grid */}
-                      <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                        {catProducts.map(product => (
-                          <ProductMiniCard key={product.id} product={product} />
-                        ))}
-                      </div>
-
+                      <h2 className="text-lg font-bold text-corp-text">{category.label}</h2>
+                      <p className="text-xs text-corp-text-2 leading-relaxed">{category.description}</p>
+                      <p className={`text-xs font-medium ${category.color}`}>{category.products.length} products</p>
                     </div>
-                  )
-                })}
+
+                    {/* Right: product grid */}
+                    <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                      {category.products.map(product => (
+                        <ProductMiniCard key={product.id} product={product} />
+                      ))}
+                    </div>
+
+                  </div>
+                ))}
               </div>
             )}
           </>
@@ -239,8 +179,8 @@ export default function AllProductsPage() {
             </p>
 
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-6">
-              {crops.map(crop => (
-                <CircleItem key={crop.id} label={crop.name} icon={crop.icon} />
+              {CATALOG_CROPS.map(crop => (
+                <CropItem key={crop.id} crop={crop} />
               ))}
             </div>
           </div>
@@ -248,21 +188,43 @@ export default function AllProductsPage() {
 
         {/* ══ DISEASES TAB ═════════════════════════════ */}
         {activeTab === 'Diseases' && (
-          <div className="py-4">
-            <h2 className="text-xl font-bold text-corp-text mb-2">Diseases</h2>
-            <p className="text-sm text-corp-text-2 mb-8">
-              Common crop diseases and the Safex solutions recommended to manage them.
-            </p>
+          <div className="py-4 flex flex-col gap-12">
 
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-6">
-              {DISEASES.map(disease => (
-                <CircleItem
-                  key={disease.name}
-                  label={disease.name}
-                  image={disease.image}
-                />
-              ))}
+            {/* A. Insects */}
+            <div>
+              <div className="mb-6">
+                <h2 className="text-xl font-bold text-corp-text mb-1">A. Insects</h2>
+                <p className="text-sm text-corp-text-2">Common insect pests affecting crops across India.</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {CATALOG_INSECTS.map(insect => (
+                  <div key={insect.id} className="bg-white border border-corp-border rounded-lg p-3 hover:shadow-card transition-shadow">
+                    <p className="text-sm font-semibold text-corp-text">{insect.name}</p>
+                    <p className="text-xs text-corp-text-2 italic mt-0.5">{insect.scientificName}</p>
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Divider */}
+            <div className="border-t border-corp-border" />
+
+            {/* B. Diseases */}
+            <div>
+              <div className="mb-6">
+                <h2 className="text-xl font-bold text-corp-text mb-1">B. Diseases</h2>
+                <p className="text-sm text-corp-text-2">Common crop diseases and the Safex solutions recommended to manage them.</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {CATALOG_DISEASES.map(disease => (
+                  <div key={disease.id} className="bg-white border border-corp-border rounded-lg p-3 hover:shadow-card transition-shadow">
+                    <p className="text-sm font-semibold text-corp-text">{disease.name}</p>
+                    <p className="text-xs text-corp-text-2 mt-0.5">{disease.type}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         )}
 
