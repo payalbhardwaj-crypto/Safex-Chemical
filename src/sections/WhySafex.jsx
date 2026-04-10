@@ -40,7 +40,7 @@ const FEATURES = [
 
 export default function WhySafex() {
   return (
-    <section id="about" className="py-20 px-4 section-gray border-t border-corp-border">
+    <section id="about" className="py-20 px-4 section-green border-t border-corp-border">
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-12">

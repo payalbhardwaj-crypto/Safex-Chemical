@@ -43,7 +43,7 @@ function Stars({ count }) {
 
 export default function Testimonials() {
   return (
-    <section className="py-20 px-4 section-gray border-t border-corp-border">
+    <section className="py-20 px-4 section-light border-t border-corp-border">
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-12">

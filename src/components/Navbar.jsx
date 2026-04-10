@@ -88,7 +88,7 @@ export default function Navbar({ onCartOpen }) {
                 >
                   <button
                     onClick={() => navigate('/products')}
-                    className={`flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-md transition-colors ${
+                    className={`flex items-center gap-1 text-[13px] font-medium px-3 py-2 rounded-md transition-colors ${
                       isActive('/products')
                         ? 'text-corp-green bg-corp-green-bg'
                         : 'text-corp-text-2 hover:text-corp-green hover:bg-corp-surface'
@@ -123,7 +123,7 @@ export default function Navbar({ onCartOpen }) {
                 <button
                   key={link.label}
                   onClick={() => handleLink(link.href)}
-                  className={`text-xs font-medium px-3 py-2 rounded-md transition-colors ${
+                  className={`text-[13px] font-medium px-3 py-2 rounded-md transition-colors ${
                     isActive(link.href)
                       ? 'text-corp-green bg-corp-green-bg'
                       : 'text-corp-text-2 hover:text-corp-green hover:bg-corp-surface'

@@ -41,7 +41,7 @@ const RESOURCES = [
 
 export default function Resources() {
   return (
-    <section id="resources" className="py-20 px-4 section-light border-t border-corp-border">
+    <section id="resources" className="py-20 px-4 section-gray border-t border-corp-border">
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-12">
