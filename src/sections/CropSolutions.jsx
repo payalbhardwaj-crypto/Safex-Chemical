@@ -13,16 +13,16 @@ export default function CropSolutions() {
     : []
 
   return (
-    <section id="crops" className="py-20 px-4 section-light border-t border-corp-border">
+    <section id="crops" className="py-20 px-4 bg-[#0E1310] border-t border-white/[0.05]">
       <div className="max-w-6xl mx-auto">
 
-        {/* Section header */}
+        {/* Header */}
         <div className="text-center mb-12">
-          <span className="section-label block mb-2">Crop Solutions</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-corp-text">
+          <span className="section-label block mb-3">Crop Solutions</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             Find the Right Product for Your Crop
           </h2>
-          <p className="mt-3 text-corp-text-2 max-w-xl mx-auto text-sm md:text-base">
+          <p className="mt-3 text-gray-400 max-w-xl mx-auto text-sm md:text-base">
             Select your crop below to see Safex products recommended by our agronomists.
           </p>
         </div>
@@ -43,12 +43,12 @@ export default function CropSolutions() {
         {activeCrop && (
           <div className="mt-12">
             <div className="flex items-center gap-4 mb-8">
-              <div className="h-px flex-1 bg-corp-border" />
-              <h3 className="text-base font-semibold text-corp-text whitespace-nowrap">
+              <div className="h-px flex-1 bg-white/[0.07]" />
+              <h3 className="text-sm font-semibold text-gray-300 whitespace-nowrap">
                 Recommended for{' '}
-                <span className="text-corp-green">{activeCrop.icon} {activeCrop.name}</span>
+                <span className="text-green-400">{activeCrop.icon} {activeCrop.name}</span>
               </h3>
-              <div className="h-px flex-1 bg-corp-border" />
+              <div className="h-px flex-1 bg-white/[0.07]" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
               {recommendedProducts.map(product => (

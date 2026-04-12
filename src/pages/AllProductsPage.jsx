@@ -9,32 +9,47 @@ import InquiryModal from '../sections/InquiryModal'
 
 const TABS = ['Products', 'Crops', 'Diseases']
 
-// ── Product mini-card (name + composition only, no image) ─────────────────────
+// ── Dark category accent map ──────────────────────────────
+const DARK_ACCENTS = {
+  herbicides:  { pill: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25', count: 'text-emerald-400' },
+  weedicides:  { pill: 'bg-lime-500/15 text-lime-400 border-lime-500/25',          count: 'text-lime-400' },
+  fungicides:  { pill: 'bg-violet-500/15 text-violet-400 border-violet-500/25',    count: 'text-violet-400' },
+  insecticides:{ pill: 'bg-red-500/15 text-red-400 border-red-500/25',             count: 'text-red-400' },
+  'pgrs-bio':  { pill: 'bg-teal-500/15 text-teal-400 border-teal-500/25',          count: 'text-teal-400' },
+  fertilisers: { pill: 'bg-amber-500/15 text-amber-400 border-amber-500/25',       count: 'text-amber-400' },
+}
+
+// ── Product mini-card ─────────────────────────────────────
 function ProductMiniCard({ product }) {
   const { cart, addProduct } = useInquiry()
   const inCart = cart.some(p => p.id === product.id)
 
   return (
-    <div className="bg-white border border-corp-border rounded-lg overflow-hidden group hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+    <div className="bg-[#151A16] border border-white/[0.07] rounded-lg overflow-hidden group hover:border-white/[0.14] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      {product.img && (
+        <div className="w-full h-28 overflow-hidden bg-white flex items-center justify-center">
+          <img
+            src={product.img}
+            alt={product.name}
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      )}
       <div className="p-3 flex flex-col gap-2 flex-1">
         <div className="flex-1">
-          <h4 className="text-xs font-bold text-corp-text leading-snug">{product.name}</h4>
-          <p className="text-[10px] text-corp-text-2 mt-0.5 leading-snug">{product.composition}</p>
+          <h4 className="text-xs font-bold text-white leading-snug">{product.name}</h4>
+          <p className="text-[10px] text-gray-500 mt-0.5 leading-snug">{product.composition}</p>
         </div>
-
         <button
           onClick={() => addProduct(product)}
           disabled={inCart}
-          className={`flex items-center justify-center gap-1 text-[10px] font-semibold py-1.5 rounded transition-colors w-full ${
+          className={`flex items-center justify-center gap-1 text-[10px] font-semibold py-1.5 rounded transition-all w-full ${
             inCart
-              ? 'bg-corp-green-bg text-corp-green border border-corp-green/30'
-              : 'bg-corp-green text-white hover:bg-corp-green-dark'
+              ? 'bg-green-500/10 text-green-400 border border-green-500/20 cursor-default'
+              : 'bg-green-600 hover:bg-green-500 text-white'
           }`}
         >
-          {inCart
-            ? <><Check size={9} /> Added</>
-            : <><ShoppingCart size={9} /> Add to Inquiry</>
-          }
+          {inCart ? <><Check size={9} /> Added</> : <><ShoppingCart size={9} /> Add to Inquiry</>}
         </button>
       </div>
     </div>
@@ -45,10 +60,10 @@ function ProductMiniCard({ product }) {
 function CropItem({ crop }) {
   return (
     <div className="flex flex-col items-center gap-2 cursor-pointer group">
-      <div className="w-20 h-20 rounded-full border-2 border-corp-border group-hover:border-corp-green bg-corp-green-bg flex items-center justify-center transition-all duration-200 group-hover:shadow-card">
+      <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-green-500/50 bg-white/[0.04] flex items-center justify-center transition-all duration-200 group-hover:bg-green-500/[0.07]">
         <span className="text-3xl">{crop.icon}</span>
       </div>
-      <span className="text-xs font-medium text-corp-text text-center leading-tight max-w-[72px]">{crop.name}</span>
+      <span className="text-xs font-medium text-gray-400 group-hover:text-white text-center leading-tight max-w-[72px] transition-colors">{crop.name}</span>
     </div>
   )
 }
@@ -59,7 +74,6 @@ export default function AllProductsPage() {
   const [activeTab, setActiveTab] = useState('Products')
   const [search,    setSearch]    = useState('')
 
-  // Flatten all products for search
   const allProducts = CATALOG_CATEGORIES.flatMap(cat => cat.products)
   const searchResults = search.trim()
     ? allProducts.filter(p =>
@@ -70,13 +84,27 @@ export default function AllProductsPage() {
     : null
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#0B0F0C]">
       <Navbar onCartOpen={() => setCartOpen(true)} />
 
+      {/* ── Page header ─────────────────────────────── */}
+      <div className="relative pt-24 pb-12 px-4 bg-[#0E1310] border-b border-white/[0.06] overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(34,197,94,0.10) 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        />
+        <div className="max-w-6xl mx-auto relative">
+          <span className="text-xs font-bold uppercase tracking-widest text-green-400 block mb-3">Product Catalog</span>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">Our Products</h1>
+          <p className="text-gray-400 text-sm md:text-base max-w-xl leading-relaxed">
+            Browse our complete range of crop protection solutions — herbicides, insecticides, fungicides, and more.
+          </p>
+        </div>
+      </div>
+
       {/* ── Secondary tab bar ───────────────────────── */}
-      <div className="sticky top-16 z-40 bg-white border-b border-corp-border shadow-nav">
+      <div className="sticky top-16 z-40 bg-[#0B0F0C]/95 backdrop-blur-md border-b border-white/[0.07]">
         <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
-          {/* Tabs */}
           <div className="flex">
             {TABS.map(tab => (
               <button
@@ -84,8 +112,8 @@ export default function AllProductsPage() {
                 onClick={() => { setActiveTab(tab); setSearch('') }}
                 className={`px-5 py-3.5 text-sm font-semibold border-b-2 transition-colors ${
                   activeTab === tab
-                    ? 'border-corp-green text-corp-green'
-                    : 'border-transparent text-corp-text-2 hover:text-corp-text'
+                    ? 'border-green-500 text-green-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-300'
                 }`}
               >
                 {tab}
@@ -93,20 +121,19 @@ export default function AllProductsPage() {
             ))}
           </div>
 
-          {/* Search — only on Products tab */}
           {activeTab === 'Products' && (
-            <div className="flex items-center gap-2 bg-corp-surface border border-corp-border rounded-md px-3 py-1.5 w-56">
-              <Search size={13} className="text-corp-text-2 flex-shrink-0" />
+            <div className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.09] rounded-md px-3 py-1.5 w-56">
+              <Search size={13} className="text-gray-500 flex-shrink-0" />
               <input
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Search products..."
-                className="flex-1 text-xs text-corp-text placeholder-corp-text-2 bg-transparent outline-none"
+                className="flex-1 text-xs text-white placeholder-gray-600 bg-transparent outline-none"
               />
               {search && (
                 <button onClick={() => setSearch('')}>
-                  <X size={12} className="text-corp-text-2 hover:text-corp-text" />
+                  <X size={12} className="text-gray-500 hover:text-white" />
                 </button>
               )}
             </div>
@@ -119,12 +146,11 @@ export default function AllProductsPage() {
         {/* ══ PRODUCTS TAB ═════════════════════════════ */}
         {activeTab === 'Products' && (
           <>
-            {/* Search results view */}
             {searchResults ? (
               <div>
-                <p className="text-sm text-corp-text-2 mb-6">
+                <p className="text-sm text-gray-500 mb-6">
                   {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for{' '}
-                  <strong className="text-corp-text">"{search}"</strong>
+                  <strong className="text-white">"{search}"</strong>
                 </p>
                 {searchResults.length > 0 ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -133,38 +159,37 @@ export default function AllProductsPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-20 border border-corp-border rounded-lg">
+                  <div className="text-center py-20 border border-white/[0.07] rounded-xl bg-[#151A16]">
                     <div className="text-4xl mb-3">🌿</div>
-                    <p className="text-sm font-semibold text-corp-text mb-1">No products found</p>
-                    <p className="text-xs text-corp-text-2">Try a different keyword</p>
+                    <p className="text-sm font-semibold text-white mb-1">No products found</p>
+                    <p className="text-xs text-gray-500">Try a different keyword</p>
                   </div>
                 )}
               </div>
             ) : (
-              /* Category-by-category catalog */
-              <div className="divide-y divide-corp-border">
-                {CATALOG_CATEGORIES.map(category => (
-                  <div key={category.id} className="py-10 flex flex-col md:flex-row gap-8">
-
-                    {/* Left: category info */}
-                    <div className="md:w-52 flex-shrink-0 flex flex-col gap-3">
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold w-fit ${category.bgColor} ${category.color} border ${category.borderColor}`}>
-                        {category.label}
+              <div className="divide-y divide-white/[0.06]">
+                {CATALOG_CATEGORIES.map(category => {
+                  const acc = DARK_ACCENTS[category.id] || { pill: 'bg-white/10 text-gray-300 border-white/10', count: 'text-gray-400' }
+                  return (
+                    <div key={category.id} className="py-10 flex flex-col md:flex-row gap-8">
+                      {/* Left: category info */}
+                      <div className="md:w-52 flex-shrink-0 flex flex-col gap-3">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold w-fit border ${acc.pill}`}>
+                          {category.label}
+                        </span>
+                        <h2 className="text-base font-bold text-white">{category.label}</h2>
+                        <p className="text-xs text-gray-500 leading-relaxed">{category.description}</p>
+                        <p className={`text-xs font-semibold ${acc.count}`}>{category.products.length} products</p>
                       </div>
-                      <h2 className="text-lg font-bold text-corp-text">{category.label}</h2>
-                      <p className="text-xs text-corp-text-2 leading-relaxed">{category.description}</p>
-                      <p className={`text-xs font-medium ${category.color}`}>{category.products.length} products</p>
+                      {/* Right: product grid */}
+                      <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        {category.products.map(product => (
+                          <ProductMiniCard key={product.id} product={product} />
+                        ))}
+                      </div>
                     </div>
-
-                    {/* Right: product grid */}
-                    <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                      {category.products.map(product => (
-                        <ProductMiniCard key={product.id} product={product} />
-                      ))}
-                    </div>
-
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </>
@@ -173,11 +198,10 @@ export default function AllProductsPage() {
         {/* ══ CROPS TAB ════════════════════════════════ */}
         {activeTab === 'Crops' && (
           <div className="py-4">
-            <h2 className="text-xl font-bold text-corp-text mb-2">Crops</h2>
-            <p className="text-sm text-corp-text-2 mb-8">
+            <h2 className="text-xl font-bold text-white mb-2">Crops</h2>
+            <p className="text-sm text-gray-400 mb-8">
               Select a crop to view Safex products recommended by our agronomists.
             </p>
-
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-6">
               {CATALOG_CROPS.map(crop => (
                 <CropItem key={crop.id} crop={crop} />
@@ -193,41 +217,38 @@ export default function AllProductsPage() {
             {/* A. Insects */}
             <div>
               <div className="mb-6">
-                <h2 className="text-xl font-bold text-corp-text mb-1">A. Insects</h2>
-                <p className="text-sm text-corp-text-2">Common insect pests affecting crops across India.</p>
+                <h2 className="text-xl font-bold text-white mb-1">A. Insects</h2>
+                <p className="text-sm text-gray-400">Common insect pests affecting crops across India.</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {CATALOG_INSECTS.map(insect => (
-                  <div key={insect.id} className="bg-white border border-corp-border rounded-lg p-3 hover:shadow-card transition-shadow">
-                    <p className="text-sm font-semibold text-corp-text">{insect.name}</p>
-                    <p className="text-xs text-corp-text-2 italic mt-0.5">{insect.scientificName}</p>
+                  <div key={insect.id} className="bg-[#151A16] border border-white/[0.07] rounded-lg p-3 hover:border-white/[0.14] transition-colors">
+                    <p className="text-sm font-semibold text-white">{insect.name}</p>
+                    <p className="text-xs text-gray-500 italic mt-0.5">{insect.scientificName}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-corp-border" />
+            <div className="border-t border-white/[0.06]" />
 
             {/* B. Diseases */}
             <div>
               <div className="mb-6">
-                <h2 className="text-xl font-bold text-corp-text mb-1">B. Diseases</h2>
-                <p className="text-sm text-corp-text-2">Common crop diseases and the Safex solutions recommended to manage them.</p>
+                <h2 className="text-xl font-bold text-white mb-1">B. Diseases</h2>
+                <p className="text-sm text-gray-400">Common crop diseases and the Safex solutions recommended to manage them.</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {CATALOG_DISEASES.map(disease => (
-                  <div key={disease.id} className="bg-white border border-corp-border rounded-lg p-3 hover:shadow-card transition-shadow">
-                    <p className="text-sm font-semibold text-corp-text">{disease.name}</p>
-                    <p className="text-xs text-corp-text-2 mt-0.5">{disease.type}</p>
+                  <div key={disease.id} className="bg-[#151A16] border border-white/[0.07] rounded-lg p-3 hover:border-white/[0.14] transition-colors">
+                    <p className="text-sm font-semibold text-white">{disease.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{disease.type}</p>
                   </div>
                 ))}
               </div>
             </div>
-
           </div>
         )}
-
       </div>
 
       <Footer />

@@ -34,27 +34,27 @@ export default function InquiryModal({ open, onClose }) {
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative z-10 w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-xl shadow-modal max-h-[90vh] overflow-y-auto border border-corp-border">
+      <div className="relative z-10 w-full sm:max-w-lg bg-[#111815] border border-white/[0.09] rounded-t-2xl sm:rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] max-h-[90vh] overflow-y-auto">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-corp-border sticky top-0 bg-white rounded-t-2xl sm:rounded-t-xl">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] sticky top-0 bg-[#111815] rounded-t-2xl sm:rounded-t-xl">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-corp-green-bg rounded-md flex items-center justify-center">
-              <ShoppingCart size={15} className="text-corp-green" />
+            <div className="w-8 h-8 bg-green-500/10 border border-green-500/20 rounded-md flex items-center justify-center">
+              <ShoppingCart size={15} className="text-green-400" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-corp-text">Your Inquiry Cart</h2>
-              <p className="text-xs text-corp-text-2">{cart.length} product{cart.length !== 1 ? 's' : ''} selected</p>
+              <h2 className="text-base font-bold text-white">Your Inquiry Cart</h2>
+              <p className="text-xs text-gray-500">{cart.length} product{cart.length !== 1 ? 's' : ''} selected</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-corp-surface rounded-md transition-colors text-corp-text-2 hover:text-corp-text"
+            className="p-1.5 hover:bg-white/[0.06] rounded-md transition-colors text-gray-500 hover:text-white"
           >
             <X size={18} />
           </button>
@@ -63,9 +63,9 @@ export default function InquiryModal({ open, onClose }) {
         <div className="px-6 py-5">
           {submitted ? (
             <div className="flex flex-col items-center py-10 text-center">
-              <CheckCircle size={48} className="text-corp-green mb-4" />
-              <h3 className="text-xl font-bold text-corp-text">Request Sent!</h3>
-              <p className="text-corp-text-2 text-sm mt-2">
+              <CheckCircle size={48} className="text-green-400 mb-4" />
+              <h3 className="text-xl font-bold text-white">Request Sent!</h3>
+              <p className="text-gray-400 text-sm mt-2">
                 Our team will contact you within 24 hours.<br />Thank you for choosing Safex!
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function InquiryModal({ open, onClose }) {
             <>
               {/* Cart items */}
               {cart.length === 0 ? (
-                <p className="text-center text-corp-text-2 text-sm py-8 bg-corp-surface rounded-md">
+                <p className="text-center text-gray-500 text-sm py-8 bg-white/[0.03] rounded-lg border border-white/[0.06]">
                   No products added yet. Browse our products and click "Add to Inquiry".
                 </p>
               ) : (
@@ -81,15 +81,15 @@ export default function InquiryModal({ open, onClose }) {
                   {cart.map(product => (
                     <div
                       key={product.id}
-                      className="flex items-center justify-between bg-corp-surface border border-corp-border rounded-md px-4 py-3"
+                      className="flex items-center justify-between bg-white/[0.04] border border-white/[0.07] rounded-lg px-4 py-3"
                     >
                       <div>
-                        <div className="font-semibold text-sm text-corp-text">{product.name}</div>
-                        <div className="text-xs text-corp-text-2">{product.category}</div>
+                        <div className="font-semibold text-sm text-white">{product.name}</div>
+                        <div className="text-xs text-gray-500">{product.category}</div>
                       </div>
                       <button
                         onClick={() => removeProduct(product.id)}
-                        className="p-1.5 hover:bg-red-50 rounded-md transition-colors text-corp-text-2 hover:text-red-600"
+                        className="p-1.5 hover:bg-red-500/10 rounded-md transition-colors text-gray-500 hover:text-red-400"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -100,11 +100,13 @@ export default function InquiryModal({ open, onClose }) {
 
               {/* Form */}
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h3 className="font-bold text-sm text-corp-text border-t border-corp-border pt-4">Request a Quote</h3>
+                <h3 className="font-bold text-sm text-white border-t border-white/[0.08] pt-4">
+                  Request a Quote
+                </h3>
 
                 <div>
-                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
-                    Your Name <span className="text-red-500">*</span>
+                  <label className="text-xs font-semibold text-gray-400 mb-1.5 block">
+                    Your Name <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -113,12 +115,12 @@ export default function InquiryModal({ open, onClose }) {
                     placeholder="e.g. Ramesh Kumar"
                     className={`corp-input ${errors.name ? 'error' : ''}`}
                   />
-                  {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                  {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
-                    Mobile Number <span className="text-red-500">*</span>
+                  <label className="text-xs font-semibold text-gray-400 mb-1.5 block">
+                    Mobile Number <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="tel"
@@ -128,11 +130,11 @@ export default function InquiryModal({ open, onClose }) {
                     maxLength={10}
                     className={`corp-input ${errors.phone ? 'error' : ''}`}
                   />
-                  {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                  {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-corp-text-2 mb-1.5 block">
+                  <label className="text-xs font-semibold text-gray-400 mb-1.5 block">
                     Message (Optional)
                   </label>
                   <textarea
@@ -147,7 +149,7 @@ export default function InquiryModal({ open, onClose }) {
                 <button
                   type="submit"
                   disabled={cart.length === 0}
-                  className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-md text-sm"
+                  className="btn-glow disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-md text-sm w-full"
                 >
                   Submit Request
                 </button>

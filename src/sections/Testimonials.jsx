@@ -34,7 +34,7 @@ function Stars({ count }) {
         <Star
           key={i}
           size={13}
-          className={i < count ? 'text-yellow-400 fill-yellow-400' : 'text-corp-border'}
+          className={i < count ? 'text-yellow-400 fill-yellow-400' : 'text-white/10'}
         />
       ))}
     </div>
@@ -43,37 +43,38 @@ function Stars({ count }) {
 
 export default function Testimonials() {
   return (
-    <section className="py-20 px-4 section-light border-t border-corp-border">
+    <section className="py-20 px-4 bg-[#0B0F0C] border-t border-white/[0.05]">
       <div className="max-w-6xl mx-auto">
 
         <div className="text-center mb-12">
-          <span className="section-label block mb-2">Testimonials</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-corp-text">
+          <span className="section-label block mb-3">Testimonials</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             What Farmers Are Saying
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="corp-card p-6 flex flex-col">
-              {/* Quote icon */}
-              <Quote size={24} className="text-corp-green opacity-30 mb-3" />
-
+          {TESTIMONIALS.map(t => (
+            <div
+              key={t.name}
+              className="bg-[#151A16] border border-white/[0.08] rounded-xl p-6 flex flex-col hover:-translate-y-1 hover:border-white/[0.14] transition-all duration-250"
+            >
+              <Quote size={22} className="text-green-500/40 mb-3" />
               <Stars count={t.rating} />
 
-              <p className="mt-4 text-corp-text-2 text-sm leading-relaxed flex-1 italic">
+              <p className="mt-4 text-gray-400 text-sm leading-relaxed flex-1 italic">
                 "{t.quote}"
               </p>
 
-              <div className="flex items-center gap-3 mt-6 pt-5 border-t border-corp-border">
+              <div className="flex items-center gap-3 mt-6 pt-5 border-t border-white/[0.07]">
                 <img
                   src={t.image}
                   alt={t.name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-corp-green-bg"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-green-500/30"
                 />
                 <div>
-                  <div className="font-bold text-sm text-corp-text">{t.name}</div>
-                  <div className="text-xs text-corp-text-2">{t.state} · {t.crop}</div>
+                  <div className="font-bold text-sm text-white">{t.name}</div>
+                  <div className="text-xs text-gray-500">{t.state} · {t.crop}</div>
                 </div>
               </div>
             </div>

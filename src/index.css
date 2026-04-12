@@ -2,41 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Base ───────────────────────────────────────────────── */
-html {
-  scroll-behavior: smooth;
-}
+/* ── Base ───────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 
 body {
   @apply font-sans antialiased;
-  background-color: #FFFFFF;
-  color: #1A1A1A;
+  background-color: #07100a;
+  color: #e8f5e9;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Scrollbar ───────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 5px; height: 5px; }
-::-webkit-scrollbar-track  { background: #F5F5F5; }
-::-webkit-scrollbar-thumb  { background: #C8E6C9; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #2E7D32; }
+::-webkit-scrollbar-track  { background: #0b160d; }
+::-webkit-scrollbar-thumb  { background: #1e4a22; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #22c55e; }
 
-/* ── Utilities ───────────────────────────────────────────── */
+/* ── Utilities ───────────────────────────────────────────────── */
 @layer utilities {
 
-  /* ── Section backgrounds ──────────────────────── */
-  .section-light { background-color: #FFFFFF; }
-  .section-gray  { background-color: #F7F7F7; }
-  .section-green { background-color: #F1F8F1; }
+  /* ── Section backgrounds (homepage / dark) ─────────────── */
+  .dark-section       { background-color: #07100a; }
+  .dark-section-alt   { background-color: #0b160d; }
+  .dark-section-mid   { background-color: #091208; }
 
-  /* ── Section label (eyebrow) ──────────────────── */
+  /* ── Section label (eyebrow) ───────────────────────────── */
   .section-label {
     @apply text-xs font-bold uppercase tracking-widest;
-    color: #2E7D32;
+    color: #22c55e;
   }
 
-  /* ── Cards ────────────────────────────────────── */
+  /* ── Glass card (homepage) ─────────────────────────────── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    will-change: transform;
+  }
+  .glass-card:hover {
+    border-color: rgba(34, 197, 94, 0.20);
+    box-shadow: 0 8px 36px rgba(0,0,0,0.55), 0 0 0 1px rgba(34,197,94,0.10), inset 0 1px 0 rgba(255,255,255,0.08);
+    transform: translateY(-3px);
+  }
+
+  /* ── corp-card (light inner pages — About, Businesses etc.) */
   .corp-card {
     background-color: #FFFFFF;
     border: 1px solid #E0E0E0;
@@ -51,7 +66,28 @@ body {
     border-color: #BDBDBD;
   }
 
-  /* ── Buttons ──────────────────────────────────── */
+  /* ── Buttons ────────────────────────────────────────────── */
+  /* Primary — dark bg variant (homepage) */
+  .btn-glow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease, transform 0.18s ease, background 0.2s ease;
+  }
+  button.btn-glow:hover,
+  a.btn-glow:hover {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    box-shadow: 0 4px 20px rgba(34,197,94,0.35), 0 0 0 1px rgba(34,197,94,0.25);
+    transform: translateY(-1px);
+  }
+  button.btn-glow:active,
+  a.btn-glow:active { transform: translateY(0); box-shadow: none; }
+
+  /* Primary — light pages */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -68,11 +104,31 @@ body {
     transform: translateY(-1px);
   }
   button.btn-primary:active,
-  a.btn-primary:active {
-    transform: translateY(0);
-    box-shadow: none;
+  a.btn-primary:active { transform: translateY(0); box-shadow: none; }
+
+  /* Secondary / ghost on dark */
+  .btn-ghost-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #e8f5e9;
+    font-weight: 600;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+  }
+  button.btn-ghost-dark:hover,
+  a.btn-ghost-dark:hover {
+    background: rgba(34,197,94,0.12);
+    border-color: rgba(34,197,94,0.35);
+    color: #4ade80;
+    transform: translateY(-1px);
   }
 
+  /* Secondary — light pages */
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -81,12 +137,10 @@ body {
     border: 1.5px solid #2E7D32;
     color: #2E7D32;
     font-weight: 600;
-    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    transition: background-color 0.18s ease, color 0.18s ease;
   }
   button.btn-secondary:hover,
-  a.btn-secondary:hover {
-    background-color: #E8F5E9;
-  }
+  a.btn-secondary:hover { background-color: #E8F5E9; }
 
   .btn-outline {
     display: inline-flex;
@@ -105,15 +159,11 @@ body {
     background-color: #F7FAF7;
   }
 
-  /* ── Tags / Badges ────────────────────────────── */
-  /*
-   * Base badge — always pair with a color variant below.
-   * e.g. <span class="corp-tag tag-insecticide">Insecticide</span>
-   */
+  /* ── Badges / Tags ──────────────────────────────────────── */
   .corp-tag {
     display: inline-flex;
     align-items: center;
-    font-size: 0.6875rem;   /* 11px */
+    font-size: 0.6875rem;
     font-weight: 600;
     line-height: 1;
     padding: 3px 9px;
@@ -121,41 +171,41 @@ body {
     letter-spacing: 0.01em;
     white-space: nowrap;
   }
+  .tag-insecticide { background-color: rgba(239,68,68,0.15);  color: #f87171; }
+  .tag-fungicide   { background-color: rgba(139,92,246,0.15); color: #a78bfa; }
+  .tag-herbicide   { background-color: rgba(234,179,8,0.15);  color: #fbbf24; }
+  .tag-organic     { background-color: rgba(34,197,94,0.15);  color: #4ade80; }
 
-  /* Color variants */
-  .tag-insecticide { background-color: #FEE2E2; color: #B91C1C; }
-  .tag-fungicide   { background-color: #EDE9FE; color: #5B21B6; }
-  .tag-herbicide   { background-color: #FEF9C3; color: #92400E; }
-  .tag-organic     { background-color: #D1FAE5; color: #065F46; }
-
-  /* ── Form inputs ──────────────────────────────── */
+  /* ── Form inputs (dark) ─────────────────────────────────── */
   .corp-input {
     width: 100%;
-    background-color: #FFFFFF;
-    border: 1.5px solid #E0E0E0;
-    border-radius: 7px;
+    background-color: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.10);
+    border-radius: 8px;
     padding: 10px 14px;
     font-size: 0.875rem;
-    color: #1A1A1A;
+    color: #e8f5e9;
     outline: none;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .corp-input:focus {
-    border-color: #2E7D32;
-    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.08);
+    border-color: rgba(34,197,94,0.50);
+    background-color: rgba(255,255,255,0.07);
+    box-shadow: 0 0 0 3px rgba(34,197,94,0.10);
   }
-  .corp-input::placeholder {
-    color: #BDBDBD;
-  }
+  .corp-input::placeholder { color: rgba(255,255,255,0.25); }
   .corp-input.error {
-    border-color: #DC2626;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+    border-color: rgba(248,113,113,0.50);
+    box-shadow: 0 0 0 3px rgba(248,113,113,0.10);
   }
 
-  /* ── Divider ──────────────────────────────────── */
-  .section-divider {
-    border: none;
-    border-top: 1px solid #EEEEEE;
-    margin: 0;
-  }
+  /* ── Divider ────────────────────────────────────────────── */
+  .section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 0; }
+
+  /* ── Light page legacy (inner pages) ───────────────────── */
+  .section-light  { background-color: #FFFFFF; }
+  .section-gray   { background-color: #F7F7F7; }
+  .section-green  { background-color: #F1F8F1; }
 }
