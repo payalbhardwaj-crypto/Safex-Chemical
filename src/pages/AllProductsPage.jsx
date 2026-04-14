@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ShoppingCart, Check, Search, X } from 'lucide-react'
 import { CATALOG_CATEGORIES, CATALOG_CROPS, CATALOG_INSECTS, CATALOG_DISEASES } from '../data/catalogData'
 import { useInquiry } from '../context/InquiryContext'
@@ -7,7 +8,7 @@ import Footer from '../components/Footer'
 import WhatsAppButton from '../components/WhatsAppButton'
 import InquiryModal from '../sections/InquiryModal'
 
-const TABS = ['Products', 'Crops', 'Diseases']
+const TABS = ['Products', 'Crops', 'Insects', 'Diseases']
 
 // ── Dark category accent map ──────────────────────────────
 const DARK_ACCENTS = {
@@ -22,10 +23,14 @@ const DARK_ACCENTS = {
 // ── Product mini-card ─────────────────────────────────────
 function ProductMiniCard({ product }) {
   const { cart, addProduct } = useInquiry()
+  const navigate = useNavigate()
   const inCart = cart.some(p => p.id === product.id)
 
   return (
-    <div className="bg-[#151A16] border border-white/[0.07] rounded-lg overflow-hidden group hover:border-white/[0.14] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+    <div
+      className="bg-[#151A16] border border-white/[0.07] rounded-lg overflow-hidden group hover:border-white/[0.14] hover:-translate-y-0.5 transition-all duration-200 flex flex-col cursor-pointer"
+      onClick={() => navigate(`/products/${product.id}`)}
+    >
       {product.img && (
         <div className="w-full h-28 overflow-hidden bg-white flex items-center justify-center">
           <img
@@ -41,7 +46,7 @@ function ProductMiniCard({ product }) {
           <p className="text-[10px] text-gray-500 mt-0.5 leading-snug">{product.composition}</p>
         </div>
         <button
-          onClick={() => addProduct(product)}
+          onClick={(e) => { e.stopPropagation(); !inCart && addProduct(product) }}
           disabled={inCart}
           className={`flex items-center justify-center gap-1 text-[10px] font-semibold py-1.5 rounded transition-all w-full ${
             inCart
@@ -60,10 +65,39 @@ function ProductMiniCard({ product }) {
 function CropItem({ crop }) {
   return (
     <div className="flex flex-col items-center gap-2 cursor-pointer group">
-      <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-green-500/50 bg-white/[0.04] flex items-center justify-center transition-all duration-200 group-hover:bg-green-500/[0.07]">
-        <span className="text-3xl">{crop.icon}</span>
+      <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-green-500/50 overflow-hidden bg-[#0E1310] transition-all duration-200">
+        <img
+          src={crop.img}
+          alt={crop.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+        />
       </div>
       <span className="text-xs font-medium text-gray-400 group-hover:text-white text-center leading-tight max-w-[72px] transition-colors">{crop.name}</span>
+    </div>
+  )
+}
+
+// ── Insect card ───────────────────────────────────────────
+function InsectCard({ insect }) {
+  return (
+    <div className="bg-[#151A16] border border-white/[0.07] rounded-xl overflow-hidden group hover:border-green-500/30 hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      <div className="w-full aspect-square overflow-hidden bg-[#0E1310] flex items-center justify-center">
+        {insect.img ? (
+          <img
+            src={insect.img}
+            alt={insect.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-red-500/5">
+            <span className="text-4xl opacity-40">🐛</span>
+          </div>
+        )}
+      </div>
+      <div className="p-3">
+        <p className="text-xs font-bold text-white leading-snug">{insect.name}</p>
+        <p className="text-[10px] text-gray-500 italic mt-0.5 leading-snug">{insect.scientificName}</p>
+      </div>
     </div>
   )
 }
@@ -205,6 +239,21 @@ export default function AllProductsPage() {
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-6">
               {CATALOG_CROPS.map(crop => (
                 <CropItem key={crop.id} crop={crop} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ══ INSECTS TAB ══════════════════════════════ */}
+        {activeTab === 'Insects' && (
+          <div className="py-4">
+            <h2 className="text-xl font-bold text-white mb-2">Insects</h2>
+            <p className="text-sm text-gray-400 mb-8">
+              Common insect pests affecting crops across India — and the Safex solutions that control them.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {CATALOG_INSECTS.map(insect => (
+                <InsectCard key={insect.id} insect={insect} />
               ))}
             </div>
           </div>

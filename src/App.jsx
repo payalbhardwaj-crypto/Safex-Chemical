@@ -23,6 +23,7 @@ import InnovationPage from './pages/InnovationPage'
 import ProfessionalSolutionsPage from './pages/ProfessionalSolutionsPage'
 import InvestorRelationsPage from './pages/InvestorRelationsPage'
 import CareersPage from './pages/CareersPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 
 function HomePage({ onCartOpen }) {
   return (
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/professional-solutions"element={<ProfessionalSolutionsPage />} />
             <Route path="/investor-relations"    element={<InvestorRelationsPage />} />
             <Route path="/careers"               element={<CareersPage />} />
+            <Route path="/products/:id"           element={<ProductDetailPage />} />
             <Route path="/crops"                 element={<CropSolutionsPage />} />
             <Route path="/resources"             element={<FarmerResourcesPage />} />
           </Routes>
