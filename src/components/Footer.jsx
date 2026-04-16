@@ -1,4 +1,5 @@
-import { Leaf, Phone, MapPin, Mail, Share2, Globe, Rss, X as XIcon } from 'lucide-react'
+import { Phone, MapPin, Mail, Share2, Globe, Rss, X as XIcon } from 'lucide-react'
+import footerLogo from '../footer-logo.png'
 
 const PRODUCT_LINKS = ['Insecticides', 'Fungicides', 'Herbicides', 'Organic Products']
 const QUICK_LINKS   = ['About Us', 'Farmer Resources', 'Crop Solutions', 'Contact Us', 'Dealer Locator']
@@ -14,13 +15,8 @@ export default function Footer() {
 
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="bg-green-600/20 border border-green-500/20 p-1.5 rounded-md">
-                <Leaf size={16} className="text-green-400" />
-              </div>
-              <span className="text-lg font-bold tracking-wide">
-                SA<span className="text-green-400">FEX</span>
-              </span>
+            <div className="mb-4">
+              <img src={footerLogo} alt="Safex" className="h-10 w-auto" style={{ mixBlendMode: 'screen' }} />
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">
               We are in the business of feeding the nation. Safex provides science-backed crop protection solutions trusted by Indian farmers since 1991.

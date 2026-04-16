@@ -24,6 +24,7 @@ import ProfessionalSolutionsPage from './pages/ProfessionalSolutionsPage'
 import InvestorRelationsPage from './pages/InvestorRelationsPage'
 import CareersPage from './pages/CareersPage'
 import ProductDetailPage from './pages/ProductDetailPage'
+import CatalogDetailPage from './pages/CatalogDetailPage'
 
 function HomePage({ onCartOpen }) {
   return (
@@ -70,7 +71,10 @@ export default function App() {
             <Route path="/professional-solutions"element={<ProfessionalSolutionsPage />} />
             <Route path="/investor-relations"    element={<InvestorRelationsPage />} />
             <Route path="/careers"               element={<CareersPage />} />
-            <Route path="/products/:id"           element={<ProductDetailPage />} />
+            <Route path="/products/:id"            element={<ProductDetailPage />} />
+            <Route path="/catalog/crop/:id"      element={<CatalogDetailPage detailType="crop" />} />
+            <Route path="/catalog/insect/:id"    element={<CatalogDetailPage detailType="insect" />} />
+            <Route path="/catalog/disease/:id"   element={<CatalogDetailPage detailType="disease" />} />
             <Route path="/crops"                 element={<CropSolutionsPage />} />
             <Route path="/resources"             element={<FarmerResourcesPage />} />
           </Routes>

@@ -63,8 +63,9 @@ function ProductMiniCard({ product }) {
 
 // ── Crop circle item ──────────────────────────────────────
 function CropItem({ crop }) {
+  const navigate = useNavigate()
   return (
-    <div className="flex flex-col items-center gap-2 cursor-pointer group">
+    <div className="flex flex-col items-center gap-2 cursor-pointer group" onClick={() => navigate(`/catalog/crop/${crop.id}`)}>
       <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-green-500/50 overflow-hidden bg-[#0E1310] transition-all duration-200">
         <img
           src={crop.img}
@@ -79,31 +80,31 @@ function CropItem({ crop }) {
 
 // ── Insect card ───────────────────────────────────────────
 function InsectCard({ insect }) {
+  const navigate = useNavigate()
   return (
-    <div className="bg-[#151A16] border border-white/[0.07] rounded-xl overflow-hidden group hover:border-green-500/30 hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
-      <div className="w-full aspect-square overflow-hidden bg-[#0E1310] flex items-center justify-center">
+    <div className="flex flex-col items-center gap-2 group cursor-pointer" onClick={() => navigate(`/catalog/insect/${insect.id}`)}>
+      <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-red-500/50 overflow-hidden bg-[#0E1310] transition-all duration-200 flex-shrink-0">
         {insect.img ? (
           <img
             src={insect.img}
             alt={insect.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-red-500/5">
-            <span className="text-4xl opacity-40">🐛</span>
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-2xl opacity-40">🐛</span>
           </div>
         )}
       </div>
-      <div className="p-3">
-        <p className="text-xs font-bold text-white leading-snug">{insect.name}</p>
-        <p className="text-[10px] text-gray-500 italic mt-0.5 leading-snug">{insect.scientificName}</p>
-      </div>
+      <p className="text-xs font-medium text-gray-400 group-hover:text-white text-center leading-tight max-w-[80px] transition-colors">{insect.name}</p>
+      <p className="text-[10px] text-gray-600 italic text-center leading-tight max-w-[80px]">{insect.scientificName}</p>
     </div>
   )
 }
 
 // ── Main page ─────────────────────────────────────────────
 export default function AllProductsPage() {
+  const navigate = useNavigate()
   const [cartOpen,  setCartOpen]  = useState(false)
   const [activeTab, setActiveTab] = useState('Products')
   const [search,    setSearch]    = useState('')
@@ -251,7 +252,7 @@ export default function AllProductsPage() {
             <p className="text-sm text-gray-400 mb-8">
               Common insect pests affecting crops across India — and the Safex solutions that control them.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-6">
               {CATALOG_INSECTS.map(insect => (
                 <InsectCard key={insect.id} insect={insect} />
               ))}
@@ -261,40 +262,31 @@ export default function AllProductsPage() {
 
         {/* ══ DISEASES TAB ═════════════════════════════ */}
         {activeTab === 'Diseases' && (
-          <div className="py-4 flex flex-col gap-12">
-
-            {/* A. Insects */}
-            <div>
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-white mb-1">A. Insects</h2>
-                <p className="text-sm text-gray-400">Common insect pests affecting crops across India.</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {CATALOG_INSECTS.map(insect => (
-                  <div key={insect.id} className="bg-[#151A16] border border-white/[0.07] rounded-lg p-3 hover:border-white/[0.14] transition-colors">
-                    <p className="text-sm font-semibold text-white">{insect.name}</p>
-                    <p className="text-xs text-gray-500 italic mt-0.5">{insect.scientificName}</p>
+          <div className="py-4">
+            <h2 className="text-xl font-bold text-white mb-2">Diseases</h2>
+            <p className="text-sm text-gray-400 mb-8">
+              Common crop diseases and the Safex solutions recommended to manage them.
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-6">
+              {CATALOG_DISEASES.map(disease => (
+                <div key={disease.id} className="flex flex-col items-center gap-2 group cursor-pointer" onClick={() => navigate(`/catalog/disease/${disease.id}`)}>
+                  <div className="w-20 h-20 rounded-full border-2 border-white/[0.09] group-hover:border-violet-500/50 overflow-hidden bg-[#0E1310] transition-all duration-200 flex-shrink-0">
+                    {disease.img ? (
+                      <img
+                        src={disease.img}
+                        alt={disease.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-2xl opacity-40">🍂</span>
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-white/[0.06]" />
-
-            {/* B. Diseases */}
-            <div>
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-white mb-1">B. Diseases</h2>
-                <p className="text-sm text-gray-400">Common crop diseases and the Safex solutions recommended to manage them.</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {CATALOG_DISEASES.map(disease => (
-                  <div key={disease.id} className="bg-[#151A16] border border-white/[0.07] rounded-lg p-3 hover:border-white/[0.14] transition-colors">
-                    <p className="text-sm font-semibold text-white">{disease.name}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{disease.type}</p>
-                  </div>
-                ))}
-              </div>
+                  <p className="text-xs font-medium text-gray-400 group-hover:text-white text-center leading-tight max-w-[80px] transition-colors">{disease.name}</p>
+                  <p className="text-[10px] text-gray-600 text-center leading-tight max-w-[80px]">{disease.type}</p>
+                </div>
+              ))}
             </div>
           </div>
         )}
